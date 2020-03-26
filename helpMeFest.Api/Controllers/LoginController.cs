@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using helpMeFest.Data;
 using helpMeFest.Models.Contract;
 using helpMeFest.Models.Contract.Repositories;
 using helpMeFest.Models.Models;
@@ -15,8 +16,8 @@ namespace helpMeFest.Api.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private ITokenService tokenService;
-        private IUserRepository userRepo;
+        private readonly ITokenService tokenService;
+        private readonly IUserRepository userRepo;
 
         public LoginController(ITokenService tokenService, IUserRepository repository)
         {
@@ -26,7 +27,6 @@ namespace helpMeFest.Api.Controllers
 
 
         [HttpPost]
-        [Route("login")]
         [AllowAnonymous]
         public ActionResult<dynamic> Authenticate([FromBody] User model)
         {

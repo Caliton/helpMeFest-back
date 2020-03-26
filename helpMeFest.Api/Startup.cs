@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using helpMeFest.Data;
 using helpMeFest.Data.Repositories;
 using helpMeFest.Models.Contract;
 using helpMeFest.Models.Contract.Repositories;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,6 +40,8 @@ namespace helpMeFest.Api
 
             services.AddCors();
             services.AddControllers();
+
+            services.AddDbContext<DatabaseContext>(o => o.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddSwaggerGen(c =>
             {
