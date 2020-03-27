@@ -10,7 +10,7 @@ namespace helpMeFest.Services.Users
 {
     public class TokenService : ITokenService
     {
-        public string GenerateToken(User user)
+        public string GenerateToken(UserOld user)
         { // TODO: put DI on controller
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);

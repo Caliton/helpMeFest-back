@@ -1,13 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace helpMeFest.Models.Models
 {
-    public class Profile
+    public class Departament
     {
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(25)]
+        [MaxLength(30)]
         public string Name { get; set; }
     }
 }

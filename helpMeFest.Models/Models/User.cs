@@ -1,12 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+
 namespace helpMeFest.Models.Models
 {
-    public class User
+    public class User : Person
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Departament { get; set; } // TODO: Verifiy if this field can in Profile table
+        [MaxLength(100)]
+        [EmailAddress]
         public string Email { get; set; }
+
+        [MaxLength(25)]
         public string Password { get; set; }
-        public Profile UserProfile { get; set; }
+
+        public Profile Profile { get; set; }
+
+        public Departament Departament { get; set; }
     }
 }

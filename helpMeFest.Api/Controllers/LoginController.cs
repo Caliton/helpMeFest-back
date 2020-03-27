@@ -37,13 +37,13 @@ namespace helpMeFest.Api.Controllers
                 return NotFound(new { Message = "Not found sorry about it"});
             }
     
-            var token = this.tokenService.GenerateToken(user);
-            user.Password = string.Empty; // TODO: Implement auto mapper here
+            //var token = this.tokenService.GenerateToken(user);
+            //user.Password = string.Empty; // TODO: Implement auto mapper here
 
             return new
             {
-                user,
-                token
+                //user,
+                //token
             };
         }
 

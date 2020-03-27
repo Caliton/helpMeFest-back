@@ -7,6 +7,6 @@ namespace helpMeFest.Models.Contract
 {
     public interface ITokenService
     {
-        public string GenerateToken(User model);
+        public string GenerateToken(UserOld model);
     }
 }
