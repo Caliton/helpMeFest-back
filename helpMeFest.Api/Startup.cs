@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using helpMeFest.Data;
 using helpMeFest.Data.Repositories;
 using helpMeFest.Models.Contract;
 using helpMeFest.Models.Contract.Repositories;
+using helpMeFest.Models.Contract.Services;
+using helpMeFest.Models.Contract.UnitOfWork;
 using helpMeFest.Models.Models;
 using helpMeFest.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -37,9 +40,12 @@ namespace helpMeFest.Api
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddCors();
             services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddDbContext<DatabaseContext>(o => o.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 

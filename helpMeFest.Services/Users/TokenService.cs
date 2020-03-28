@@ -10,7 +10,7 @@ namespace helpMeFest.Services.Users
 {
     public class TokenService : ITokenService
     {
-        public string GenerateToken(UserOld user)
+        public string GenerateToken(User user)
         { // TODO: put DI on controller
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
@@ -18,7 +18,7 @@ namespace helpMeFest.Services.Users
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                        new Claim(ClaimTypes.Role, user.UserProfile.Id.ToString())
+                        new Claim(ClaimTypes.Role, user.Profile.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

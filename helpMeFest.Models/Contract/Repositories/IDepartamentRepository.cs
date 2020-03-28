@@ -5,8 +5,7 @@ using System.Text;
 
 namespace helpMeFest.Models.Contract.Repositories
 {
-    public interface IUserRepository : IRepositoryBase<User>
+    public interface IDepartamentRepository : IRepositoryBase<Departament>
     {
-        User CreateFillProps(User user);
     }
 }
