@@ -33,9 +33,9 @@ namespace helpMeFest.Api.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        public ActionResult<UserDto> Authenticate([FromBody] Login userLogin)
+        public async Task<ActionResult<UserDto>> Authenticate([FromBody] Login userLogin)
         {
-            var user = this.userService.ValidateLogin(userLogin.Email, userLogin.Password);
+            var user = await this.userService.ValidateLogin(userLogin.Email, userLogin.Password);
 
             // TODO: Maybe this piece can be replaced by AuthenticationResult
             if (user == null)

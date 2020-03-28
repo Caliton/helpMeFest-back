@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace helpMeFest.Data.Repositories
 {
@@ -12,19 +13,20 @@ namespace helpMeFest.Data.Repositories
     {
         protected DatabaseContext RepositoryContext { get; set; }
 
+
         public RepositoryBase(DatabaseContext repositoryContext)
         {
             this.RepositoryContext = repositoryContext;
         }
 
-        public IEnumerable<T> FindAll()
+        public async Task<IEnumerable<T>> FindAll()
         {
-            return this.RepositoryContext.Set<T>().AsNoTracking();
+            return await  this.RepositoryContext.Set<T>().ToListAsync();
         }
 
-        public virtual IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public async virtual Task<IEnumerable<T>> FindByCondition(Expression<Func<T, bool>> expression)
         {
-            return this.RepositoryContext.Set<T>().Where(expression).AsNoTracking();
+            return await this.RepositoryContext.Set<T>().Where(expression).ToListAsync();
         }
 
         public T Create(T entity)

@@ -11,7 +11,7 @@ namespace helpMeFest.Api.Dtos
         public string Email { get; set; }
         public string Password { get; set; }
         public bool IsGuest { get; set; }
-        public int IdProfile { get; set; }
-        public int IdDepartament { get; set; }
+        public int ProfileId { get; set; }
+        public int DepartamentId { get; set; }
     }
 }

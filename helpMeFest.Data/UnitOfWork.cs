@@ -15,6 +15,7 @@ namespace helpMeFest.Data
         private readonly IUserRepository userRepository;
         private readonly IDepartamentRepository departamentRepository;
         private readonly IProfileRepository profileRepository;
+        private readonly IEventRepository eventRepository;
 
         public UnitOfWork(DatabaseContext repositoryContext)
         {
@@ -33,9 +34,11 @@ namespace helpMeFest.Data
 
         public IDepartamentRepository DepartamentRepository => this.departamentRepository ??new DepartamentRepository(databaseContext);
 
-        public Task<int> Commit()
+        public IEventRepository EventRepository => this.eventRepository ?? new EventRepository(databaseContext);
+
+        public async Task<int> Commit()
         {
-            return this.databaseContext.SaveChangesAsync();
+            return await this.databaseContext.SaveChangesAsync();
         }
     }
 }

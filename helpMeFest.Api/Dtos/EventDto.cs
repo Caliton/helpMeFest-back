@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace helpMeFest.Models.Models
+namespace helpMeFest.Api.Dtos
 {
-    public class Event
+    public class EventDto
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
@@ -21,6 +18,7 @@ namespace helpMeFest.Models.Models
         [Required]
         public DateTime DateEnd { get; set; }
 
+        [Required]
         [MaxLength(500)]
         public string Description { get; set; }
 
@@ -28,6 +26,5 @@ namespace helpMeFest.Models.Models
         public string Place { get; set; }
 
         public int EventOrganizerId { get; set; }
-        public User EventOrganizer { get; set; }
     }
 }

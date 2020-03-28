@@ -1,5 +1,7 @@
 ﻿using helpMeFest.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MySqlConnector.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +10,9 @@ namespace helpMeFest.Data
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) 
+        {
+        }
 
         public DbSet<Departament> Departament { get; set; }
         public DbSet<Event> Event { get; set; }
@@ -20,8 +24,10 @@ namespace helpMeFest.Data
         {
             modelBuider.Entity<UserEvent>().HasKey(sc => new { sc.IdUser, sc.IdEvent });
             modelBuider.Entity<Person>().ToTable("Person");
+
+            //modelBuider.Entity<Event>().HasOne<User>(ev => ev.EventOrganizer).WithMany().HasForeignKey(ev => ev.EventOrganizerId);
+
             base.OnModelCreating(modelBuider);
         }
-    
     }
 }

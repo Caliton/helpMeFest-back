@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace helpMeFest.Data.Repositories
 {
@@ -22,9 +23,9 @@ namespace helpMeFest.Data.Repositories
             return this.Create(user);
         }
 
-        public override IQueryable<User> FindByCondition(Expression<Func<User, bool>> expression)
+        public async override Task<IEnumerable<User>> FindByCondition(Expression<Func<User, bool>> expression)
         {
-            return this.RepositoryContext.Set<User>().Where(expression).AsNoTracking().Include(user => user.Profile).Include(user => user.Departament).AsNoTracking();
+            return await this.RepositoryContext.Set<User>().Where(expression).AsNoTracking().Include(user => user.Profile).Include(user => user.Departament).ToListAsync();
         }
     }
 }

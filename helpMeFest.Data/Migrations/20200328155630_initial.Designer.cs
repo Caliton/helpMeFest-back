@@ -9,7 +9,7 @@ using helpMeFest.Data;
 namespace helpMeFest.Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200327223322_initial")]
+    [Migration("20200328155630_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,7 @@ namespace helpMeFest.Data.Migrations
                         .HasColumnType("varchar(500) CHARACTER SET utf8mb4")
                         .HasMaxLength(500);
 
-                    b.Property<int?>("EventOrganizerId")
+                    b.Property<int>("EventOrganizerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -142,7 +142,7 @@ namespace helpMeFest.Data.Migrations
                         .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
                         .HasMaxLength(10);
 
-                    b.Property<int?>("RelatedUserId")
+                    b.Property<int>("RelatedUserId")
                         .HasColumnType("int");
 
                     b.HasIndex("RelatedUserId");
@@ -154,7 +154,7 @@ namespace helpMeFest.Data.Migrations
                 {
                     b.HasBaseType("helpMeFest.Models.Models.Person");
 
-                    b.Property<int?>("DepartamentId")
+                    b.Property<int>("DepartamentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -165,7 +165,7 @@ namespace helpMeFest.Data.Migrations
                         .HasColumnType("varchar(25) CHARACTER SET utf8mb4")
                         .HasMaxLength(25);
 
-                    b.Property<int?>("ProfileId")
+                    b.Property<int>("ProfileId")
                         .HasColumnType("int");
 
                     b.HasIndex("DepartamentId");
@@ -179,7 +179,9 @@ namespace helpMeFest.Data.Migrations
                 {
                     b.HasOne("helpMeFest.Models.Models.User", "EventOrganizer")
                         .WithMany()
-                        .HasForeignKey("EventOrganizerId");
+                        .HasForeignKey("EventOrganizerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("helpMeFest.Models.Models.UserEvent", b =>
@@ -197,18 +199,24 @@ namespace helpMeFest.Data.Migrations
                 {
                     b.HasOne("helpMeFest.Models.Models.User", "RelatedUser")
                         .WithMany()
-                        .HasForeignKey("RelatedUserId");
+                        .HasForeignKey("RelatedUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("helpMeFest.Models.Models.User", b =>
                 {
                     b.HasOne("helpMeFest.Models.Models.Departament", "Departament")
                         .WithMany()
-                        .HasForeignKey("DepartamentId");
+                        .HasForeignKey("DepartamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("helpMeFest.Models.Models.Profile", "Profile")
                         .WithMany()
-                        .HasForeignKey("ProfileId");
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

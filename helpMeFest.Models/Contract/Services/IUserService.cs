@@ -9,6 +9,6 @@ namespace helpMeFest.Models.Contract.Services
     public interface IUserService
     {
         Task<User> CreateUser(User user);
-        User ValidateLogin(string email, string password);
+        Task<User> ValidateLogin(string email, string password);
     }
 }

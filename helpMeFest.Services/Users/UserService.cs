@@ -18,14 +18,15 @@ namespace helpMeFest.Services.Users
 
         public async Task<User> CreateUser(User user)
         {
-            var createdUser = this.unitOfWork.UserRepository.CreateFillProps(user);
+            var createdUser = this.unitOfWork.UserRepository.Create(user);
             await this.unitOfWork.Commit();
             return createdUser;
         }
 
-        public User ValidateLogin(string email, string password)
+        public async Task<User> ValidateLogin(string email, string password)
         {
-            return this.unitOfWork.UserRepository.FindByCondition(user => user.Email == email && user.Password == password).FirstOrDefault();
+            var users = await this.unitOfWork.UserRepository.FindByCondition(user => user.Email == email && user.Password == password);
+            return users.FirstOrDefault();
         }
     }
 }

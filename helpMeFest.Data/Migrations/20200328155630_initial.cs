@@ -58,19 +58,19 @@ namespace helpMeFest.Data.Migrations
                         column: x => x.RelatedUserId,
                         principalTable: "Person",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Person_Departament_DepartamentId",
                         column: x => x.DepartamentId,
                         principalTable: "Departament",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Person_Profile_ProfileId",
                         column: x => x.ProfileId,
                         principalTable: "Profile",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,7 +84,7 @@ namespace helpMeFest.Data.Migrations
                     DateEnd = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(maxLength: 500, nullable: true),
                     Place = table.Column<string>(maxLength: 45, nullable: true),
-                    EventOrganizerId = table.Column<int>(nullable: true)
+                    EventOrganizerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,7 +94,7 @@ namespace helpMeFest.Data.Migrations
                         column: x => x.EventOrganizerId,
                         principalTable: "Person",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

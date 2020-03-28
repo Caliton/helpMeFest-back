@@ -6,7 +6,7 @@ using System.Text;
 
 namespace helpMeFest.Data
 {
-    public class BloggingContextFactory : IDesignTimeDbContextFactory<DatabaseContext> 
+    public class BloggingContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
     {
         public DatabaseContext CreateDbContext(string[] args)
         {

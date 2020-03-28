@@ -18,7 +18,7 @@ namespace helpMeFest.Services.Users
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                        new Claim(ClaimTypes.Role, user.Profile.Id.ToString())
+                        new Claim(ClaimTypes.Role, user.ProfileId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

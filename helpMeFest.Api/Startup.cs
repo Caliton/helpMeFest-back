@@ -11,6 +11,7 @@ using helpMeFest.Models.Contract.Repositories;
 using helpMeFest.Models.Contract.Services;
 using helpMeFest.Models.Contract.UnitOfWork;
 using helpMeFest.Models.Models;
+using helpMeFest.Services.Events;
 using helpMeFest.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +42,7 @@ namespace helpMeFest.Api
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEventService, EventService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddCors();

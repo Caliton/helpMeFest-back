@@ -7,7 +7,7 @@ namespace helpMeFest.Services.Utils
 {
     public class CryptoPass
     {
-        private string passwd;
+        private readonly string passwd;
         private Guid id;
 
         public CryptoPass(string pass, Guid Id)

@@ -13,9 +13,9 @@ namespace helpMeFest.Models.Models
 
         [MaxLength(25)]
         public string Password { get; set; }
-
+        public int ProfileId { get; set; }
         public Profile Profile { get; set; }
-
+        public int DepartamentId { get; set; }
         public Departament Departament { get; set; }
     }
 }
