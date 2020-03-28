@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using helpMeFest.Api.Dtos;
 using helpMeFest.Data;
+using helpMeFest.Models;
 using helpMeFest.Models.Contract;
 using helpMeFest.Models.Contract.Repositories;
 using helpMeFest.Models.Contract.Services;
@@ -35,20 +36,20 @@ namespace helpMeFest.Api.Controllers
         [Route("login")]
         public async Task<ActionResult<UserDto>> Authenticate([FromBody] Login userLogin)
         {
-            var user = await this.userService.ValidateLogin(userLogin.Email, userLogin.Password);
+            var authResult = await this.userService.ValidateLogin(userLogin.Email, userLogin.Password);
 
-            // TODO: Maybe this piece can be replaced by AuthenticationResult
-            if (user == null)
+            if (authResult.LoginResult == LoginResult.FAIL)
             {
-                return NotFound(new { Message = "Email or Password Incorrect!"});
+                return Unauthorized(new { Message = authResult.Message});
             }
-    
+
+            var user = authResult.ReturnedUser;
             var userDto = this.mapper.Map<UserDto>(user);
             var token = this.tokenService.GenerateToken(user);
 
             userDto.Token = token;
 
-            return userDto;
+            return Ok(userDto);
         }
          
 

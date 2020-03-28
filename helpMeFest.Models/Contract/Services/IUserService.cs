@@ -1,4 +1,5 @@
 ﻿using helpMeFest.Models.Models;
+using helpMeFest.Models.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,6 @@ namespace helpMeFest.Models.Contract.Services
     public interface IUserService
     {
         Task<User> CreateUser(User user);
-        Task<User> ValidateLogin(string email, string password);
+        Task<AuthenticationResult> ValidateLogin(string email, string password);
     }
 }

@@ -2,6 +2,7 @@
 using helpMeFest.Models.Contract.Services;
 using helpMeFest.Models.Contract.UnitOfWork;
 using helpMeFest.Models.Models;
+using helpMeFest.Models.Utils;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,10 +24,25 @@ namespace helpMeFest.Services.Users
             return createdUser;
         }
 
-        public async Task<User> ValidateLogin(string email, string password)
+        public async Task<AuthenticationResult> ValidateLogin(string email, string password)
         {
             var users = await this.unitOfWork.UserRepository.FindByCondition(user => user.Email == email && user.Password == password);
-            return users.FirstOrDefault();
+            var user = users.FirstOrDefault();
+            if (user == null)
+            {
+                return new AuthenticationResult()
+                {
+                    LoginResult = Models.LoginResult.FAIL,
+                    Message = "Não encontrei seus dados ou eles estão incorretos"
+                };
+            }
+
+            return new AuthenticationResult()
+            {
+                LoginResult = Models.LoginResult.SUCCESS,
+                Message = "Logado! Vai filhão!",
+                ReturnedUser = user
+            };
         }
     }
 }

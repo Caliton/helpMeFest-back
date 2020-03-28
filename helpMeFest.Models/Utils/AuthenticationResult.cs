@@ -7,11 +7,10 @@ namespace helpMeFest.Models.Utils
 {
     public class AuthenticationResult
     {
-        public bool IsSuccessfully { get; set; }
+        public LoginResult LoginResult { get; set; }
 
         public string Message { get; set; }
 
         public User ReturnedUser { get; set; }
-
     }
 }

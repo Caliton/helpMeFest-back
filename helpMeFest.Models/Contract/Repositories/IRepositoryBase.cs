@@ -14,6 +14,6 @@ namespace helpMeFest.Models.Contract.Repositories
         T Create(T entity);
         void Update(T entity);
         void Delete(T entity);
-        bool Exists(T entity, Expression<Func<T, bool>> expression);
+        bool Exists(Expression<Func<T, bool>> expression);
     }
 }

@@ -44,7 +44,7 @@ namespace helpMeFest.Data.Repositories
             this.RepositoryContext.Set<T>().Remove(entity);
         }
 
-        public bool Exists(T entity, Expression<Func<T, bool>> expression)
+        public bool Exists(Expression<Func<T, bool>> expression)
         {
             return this.RepositoryContext.Set<T>().Any(expression);
         }
