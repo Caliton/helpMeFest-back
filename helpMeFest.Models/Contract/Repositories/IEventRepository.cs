@@ -10,5 +10,7 @@ namespace helpMeFest.Models.Contract.Repositories
         public Task<IEnumerable<Event>> FindAllByUser(int userId);
         public Task<Event> FindEventByIdAndUser(int eventId, int userId);
 
+        public Task<IEnumerable<Event>> FindAllByOwner(int ownerId);
+
     }
 }

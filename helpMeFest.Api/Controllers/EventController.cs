@@ -48,6 +48,14 @@ namespace helpMeFest.Api.Controllers
             return Ok(eve);
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("eventsByOwner/{ownerId}")]
+        public async Task<ActionResult> GetEventsByOwner([FromRoute] int ownerId)
+        {
+            return Ok(await this.eventService.GetEventsByOwner(ownerId));
+        }
+
         [HttpPost]
         [Authorize(Roles = "1")]
         public async Task<ActionResult> CreateEvent([FromBody] EventDto ev)

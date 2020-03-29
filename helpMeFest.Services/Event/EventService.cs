@@ -56,6 +56,11 @@ namespace helpMeFest.Services.Events
             return await this.unitOfWork.EventRepository.FindEventByIdAndUser(eventId, userId);
         }
 
+        public async Task<IEnumerable<Event>> GetEventsByOwner(int onwerId)
+        {
+            return await this.unitOfWork.EventRepository.FindAllByOwner(onwerId);
+        }
+
         public async Task<Event> UpdateEvent(Event ev)
         {
             // PEGAR O USUÁRIO

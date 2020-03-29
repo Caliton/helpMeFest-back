@@ -25,7 +25,12 @@ namespace helpMeFest.Data.Repositories
 
         public async Task<IEnumerable<Event>> FindAllByUser(int userId)
         {
-            return await this.GetAllEventsFromUser(userId).ToListAsync();
+            return await this.GetAllEventsFromUser(userId).Distinct().ToListAsync();
+        }
+
+        public async Task<IEnumerable<Event>> FindAllByOwner(int ownerId)
+        {
+            return await this.GetAllEventsFromUser(ownerId).Where(x => x.EventOrganizerId == ownerId).Distinct().ToListAsync();
         }
         
         public async Task<Event> FindEventByIdAndUser(int eventId, int userId)

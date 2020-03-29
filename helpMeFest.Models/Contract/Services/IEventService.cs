@@ -14,5 +14,6 @@ namespace helpMeFest.Models.Contract.Services
         Task<Event> UpdateEvent(Event ev);
         Task<Event> DeleteEvent(int enventId);
         Task<IEnumerable<Event>> FindAllByUser(int userId);
+        public Task<IEnumerable<Event>> GetEventsByOwner(int onwerId);
     }
 }
