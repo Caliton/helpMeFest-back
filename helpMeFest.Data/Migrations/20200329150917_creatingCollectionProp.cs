@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace helpMeFest.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class creatingCollectionProp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -101,26 +101,24 @@ namespace helpMeFest.Data.Migrations
                 name: "UserEvent",
                 columns: table => new
                 {
-                    IdUser = table.Column<int>(nullable: false),
-                    IdEvent = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true),
-                    EvetId = table.Column<int>(nullable: true)
+                    PersonId = table.Column<int>(nullable: false),
+                    EventId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserEvent", x => new { x.IdUser, x.IdEvent });
+                    table.PrimaryKey("PK_UserEvent", x => new { x.PersonId, x.EventId });
                     table.ForeignKey(
-                        name: "FK_UserEvent_Event_EvetId",
-                        column: x => x.EvetId,
+                        name: "FK_UserEvent_Event_EventId",
+                        column: x => x.EventId,
                         principalTable: "Event",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserEvent_Person_UserId",
-                        column: x => x.UserId,
+                        name: "FK_UserEvent_Person_PersonId",
+                        column: x => x.PersonId,
                         principalTable: "Person",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -144,14 +142,9 @@ namespace helpMeFest.Data.Migrations
                 column: "ProfileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserEvent_EvetId",
+                name: "IX_UserEvent_EventId",
                 table: "UserEvent",
-                column: "EvetId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserEvent_UserId",
-                table: "UserEvent",
-                column: "UserId");
+                column: "EventId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

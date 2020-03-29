@@ -6,7 +6,7 @@ using System.Text;
 
 namespace helpMeFest.Models.Models
 {
-    public abstract class Person
+    public class Person
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -17,5 +17,8 @@ namespace helpMeFest.Models.Models
 
         [Required]
         public bool IsGuest { get; set; }
+
+        public ICollection<UserEvent> Events { get;set; }
+
     }
 }

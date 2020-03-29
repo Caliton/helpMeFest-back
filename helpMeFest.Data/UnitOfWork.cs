@@ -16,25 +16,22 @@ namespace helpMeFest.Data
         private readonly IDepartamentRepository departamentRepository;
         private readonly IProfileRepository profileRepository;
         private readonly IEventRepository eventRepository;
+        private readonly IUserEventRepository userEventRepository;
 
         public UnitOfWork(DatabaseContext repositoryContext)
         {
             databaseContext = repositoryContext;
         }
 
-        public IUserRepository UserRepository
-        {
-            get
-            {
-                return this.userRepository ?? new UserRepository(databaseContext);
-            }
-        }
+        public IUserRepository UserRepository => this.userRepository ?? new UserRepository(databaseContext);
 
         public IProfileRepository ProfileRepository => this.profileRepository ?? new ProfileRepository(databaseContext);
 
         public IDepartamentRepository DepartamentRepository => this.departamentRepository ??new DepartamentRepository(databaseContext);
 
         public IEventRepository EventRepository => this.eventRepository ?? new EventRepository(databaseContext);
+
+        public IUserEventRepository UserEventRepository => this.userEventRepository ?? new UserEventRepository(databaseContext);
 
         public async Task<int> Commit()
         {

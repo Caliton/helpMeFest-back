@@ -4,9 +4,15 @@ using System.Text;
 
 namespace helpMeFest.Models
 {
-    public enum LoginResult
+    public enum EnumLoginResult
     {
         FAIL,
         SUCCESS
-    } 
+    }
+
+    public enum EnumProfile
+    {
+        ORGANIZER,
+        PARTICIPANT
+    }
 }

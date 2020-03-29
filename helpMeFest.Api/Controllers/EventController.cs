@@ -24,19 +24,27 @@ namespace helpMeFest.Api.Controllers
             this.eventService = eventService;
             this.mapper = mapper;
         }
-
+       
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult> GetAllEvents()
+        [Route ("allbyuser/{userId}")]
+        public async Task<ActionResult> GetAllByUserId([FromRoute] int userId)
         {
-            return Ok(await this.eventService.GetAllEvents());
+            try
+            {
+                return Ok(await this.eventService.FindAllByUser(userId));
+            }
+            catch (Exception  ex)
+            {
+                return BadRequest(new { Message = $"Erro ao obter evento:\n{ex.Message}" });
+            }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{enventId}")]
         [Authorize]
-        public async Task<ActionResult> GetEvent([FromRoute] int enventId)
+        public async Task<ActionResult> GetEvent([FromRoute] int enventId, [FromQuery] int userId)
         {
-            var eve = await this.eventService.GetEventById(enventId);
+            var eve = await this.eventService.GetEventById(enventId, userId);
             return Ok(eve);
         }
 
@@ -44,28 +52,27 @@ namespace helpMeFest.Api.Controllers
         [Authorize(Roles = "1")]
         public async Task<ActionResult> CreateEvent([FromBody] EventDto ev)
         {
-            //validations here
-
             var eventModel = this.mapper.Map<EventDto, Event>(ev);
             var createdEvent = await this.eventService.CreateEvent(eventModel);
             return Created($"/event/{ createdEvent.Id }", new { Message = "Evento Criado com sucesso!"});
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "1")]
-        public async Task<ActionResult> UpdateEvent([FromBody] EventDto ev)
+        [Authorize]
+        public async Task<ActionResult> UpdateEvent([FromBody] Event ev)
         {
-            var eventModel = this.mapper.Map<EventDto, Event>(ev);
-            var updatedEvent = await this.eventService.UpdateEvent(eventModel);
+            //var eventModel = this.mapper.Map<EventDto, Event>(ev);
+            var updatedEvent = await this.eventService.UpdateEvent(ev);
             return Ok(updatedEvent);
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "1")]
+        [Authorize]
         public async Task<ActionResult> DeleteEvent([FromRoute] int Id)
         {
             var deletedEvent = await this.eventService.DeleteEvent(Id);
             return Ok(deletedEvent);
         }
+        
     }
 }

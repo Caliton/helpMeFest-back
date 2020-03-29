@@ -20,14 +20,26 @@ namespace helpMeFest.Data
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Profile> Profile { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuider)
+        public DbSet<UserEvent> UserEvent { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuider.Entity<UserEvent>().HasKey(sc => new { sc.IdUser, sc.IdEvent });
-            modelBuider.Entity<Person>().ToTable("Person");
 
-            //modelBuider.Entity<Event>().HasOne<User>(ev => ev.EventOrganizer).WithMany().HasForeignKey(ev => ev.EventOrganizerId);
+            modelBuilder.Entity<UserEvent>().HasKey(sc => new { sc.PersonId, sc.EventId });
+            modelBuilder.Entity<UserEvent>()
+                .HasOne(usev => usev.Person)
+                .WithMany(p => p.Events)
+                .HasForeignKey(usev => usev.PersonId);
 
-            base.OnModelCreating(modelBuider);
+            modelBuilder.Entity<UserEvent>()
+                    .HasOne(usev => usev.Event)
+                    .WithMany(e => e.People)
+                    .HasForeignKey(usev => usev.EventId);
+            
+            modelBuilder.Entity<Person>().ToTable("Person");
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

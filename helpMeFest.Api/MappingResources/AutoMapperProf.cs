@@ -12,26 +12,9 @@ namespace helpMeFest.Api.MappingResources
             #region Dto to Domain
 
             CreateMap<SaveUserDto, User>();
-            //.ForMember(modelUser => modelUser.Profile, dtoUser => dtoUser.MapFrom(
-            //    data => new Models.Models.Profile()
-            //    {
-            //        Id = data.IdProfile
-            //    }
-            //))
-            //.ForMember(modelUser => modelUser.Departament, dtoUser => dtoUser.MapFrom(
-            //        data => new Departament()
-            //        {
-            //            Id = data.IdDepartament
-            //        }
-            //    ));
+            CreateMap<SaveUserEvent, UserEvent>();
 
             CreateMap<EventDto, Event>();
-                //.ForMember(modelEvent => modelEvent.EventOrganizer, dtoEvent => dtoEvent.MapFrom(
-                //    data => new User()
-                //    {
-                //        Id = data.EventOrganizerId
-                //    }
-                //));
 
             #endregion Dto to Domain
 
@@ -40,7 +23,6 @@ namespace helpMeFest.Api.MappingResources
             CreateMap<User, UserDto>();
 
             #endregion Domain to Dto
-
         }
 
     }

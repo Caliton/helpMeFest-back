@@ -29,5 +29,10 @@ namespace helpMeFest.Models.Models
 
         public int EventOrganizerId { get; set; }
         public User EventOrganizer { get; set; }
+
+        public ICollection<UserEvent> People { get; set; }
+
+        [NotMapped]
+        public bool IsParticipating { get; set; }
     }
 }

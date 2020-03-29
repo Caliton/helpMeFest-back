@@ -11,7 +11,7 @@ namespace helpMeFest.Data
         public DatabaseContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
-            optionsBuilder.UseMySql("Server=localhost;User Id=nicoolas;Password=12345;Database=help_me_fest; pooling = false;convert zero datetime=True");
+            optionsBuilder.UseMySql("Server=localhost;User Id=nicoolas;Password=12345;Database=help_me_fest2; pooling = false;convert zero datetime=True");
 
             return new DatabaseContext(optionsBuilder.Options);
         }

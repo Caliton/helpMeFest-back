@@ -9,8 +9,8 @@ using helpMeFest.Data;
 namespace helpMeFest.Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200328155630_initial")]
-    partial class initial
+    [Migration("20200329150917_creatingCollectionProp")]
+    partial class creatingCollectionProp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -113,23 +113,15 @@ namespace helpMeFest.Data.Migrations
 
             modelBuilder.Entity("helpMeFest.Models.Models.UserEvent", b =>
                 {
-                    b.Property<int>("IdUser")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdEvent")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EvetId")
-                        .HasColumnType("int");
+                    b.HasKey("PersonId", "EventId");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdUser", "IdEvent");
-
-                    b.HasIndex("EvetId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("EventId");
 
                     b.ToTable("UserEvent");
                 });
@@ -186,13 +178,17 @@ namespace helpMeFest.Data.Migrations
 
             modelBuilder.Entity("helpMeFest.Models.Models.UserEvent", b =>
                 {
-                    b.HasOne("helpMeFest.Models.Models.Event", "Evet")
+                    b.HasOne("helpMeFest.Models.Models.Event", "Event")
                         .WithMany()
-                        .HasForeignKey("EvetId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("helpMeFest.Models.Models.User", "User")
+                    b.HasOne("helpMeFest.Models.Models.Person", "Person")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("helpMeFest.Models.Models.Guest", b =>

@@ -7,7 +7,7 @@ namespace helpMeFest.Models.Utils
 {
     public class AuthenticationResult
     {
-        public LoginResult LoginResult { get; set; }
+        public EnumLoginResult LoginResult { get; set; }
 
         public string Message { get; set; }
 

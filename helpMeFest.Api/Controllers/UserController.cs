@@ -38,9 +38,9 @@ namespace helpMeFest.Api.Controllers
         {
             var authResult = await this.userService.ValidateLogin(userLogin.Email, userLogin.Password);
 
-            if (authResult.LoginResult == LoginResult.FAIL)
+            if (authResult.LoginResult == EnumLoginResult.FAIL)
             {
-                return Unauthorized(new { Message = authResult.Message});
+                return Unauthorized(new { authResult.Message});
             }
 
             var user = authResult.ReturnedUser;

@@ -26,5 +26,6 @@ namespace helpMeFest.Api.Dtos
         public string Place { get; set; }
 
         public int EventOrganizerId { get; set; }
+
     }
 }

@@ -32,14 +32,14 @@ namespace helpMeFest.Services.Users
             {
                 return new AuthenticationResult()
                 {
-                    LoginResult = Models.LoginResult.FAIL,
+                    LoginResult = Models.EnumLoginResult.FAIL,
                     Message = "Não encontrei seus dados ou eles estão incorretos"
                 };
             }
 
             return new AuthenticationResult()
             {
-                LoginResult = Models.LoginResult.SUCCESS,
+                LoginResult = Models.EnumLoginResult.SUCCESS,
                 Message = "Logado! Vai filhão!",
                 ReturnedUser = user
             };

@@ -27,5 +27,10 @@ namespace helpMeFest.Data.Repositories
         {
             return await this.RepositoryContext.Set<User>().Where(expression).AsNoTracking().Include(user => user.Profile).Include(user => user.Departament).ToListAsync();
         }
+
+        //public async User GetUserById(int userId)
+        //{
+            
+        //}
     }
 }

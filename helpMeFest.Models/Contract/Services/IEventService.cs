@@ -10,8 +10,9 @@ namespace helpMeFest.Models.Contract.Services
     {
         Task<IEnumerable<Event>> GetAllEvents();
         Task<Event> CreateEvent(Event ev);
-        Task<Event> GetEventById(int enventId);
+        Task<Event> GetEventById(int enventId, int userId);
         Task<Event> UpdateEvent(Event ev);
         Task<Event> DeleteEvent(int enventId);
+        Task<IEnumerable<Event>> FindAllByUser(int userId);
     }
 }
