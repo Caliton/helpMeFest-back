@@ -31,7 +31,9 @@ namespace helpMeFest.Data.Repositories
         public async Task<Event> FindEventByIdAndUser(int eventId, int userId)
         {
             var eventsByUser = this.GetAllEventsFromUser(userId);
-            return await eventsByUser.Where(x => x.Id == eventId).Include(ev => ev.People);
+            var returnedEvent = await eventsByUser.Where(x => x.Id == eventId).FirstOrDefaultAsync();
+            returnedEvent.Guests = await this.GetGuestsEvent(eventId).Where(x => x.RelatedUserId == userId).ToListAsync();
+            return returnedEvent;
         }
 
         private IQueryable<Event> GetAllEventsFromUser(int userId)
@@ -50,6 +52,14 @@ namespace helpMeFest.Data.Repositories
                        Name = ev.Name,
                        Place = ev.Place,
                    };
+        }
+    
+        private IQueryable<Guest> GetGuestsEvent(int eventId)
+        {
+          return from guests in this.RepositoryContext.Guests
+                         join userEvent in this.RepositoryContext.UserEvent on guests.Id equals userEvent.PersonId
+                         where userEvent.EventId == eventId
+                         select guests;
         }
     }
 }

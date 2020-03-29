@@ -34,5 +34,8 @@ namespace helpMeFest.Models.Models
 
         [NotMapped]
         public bool IsParticipating { get; set; }
+
+        [NotMapped]
+        public ICollection<Guest> Guests { get; set; }
     }
 }

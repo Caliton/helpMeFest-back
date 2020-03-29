@@ -21,5 +21,7 @@ namespace helpMeFest.Data.Repositories
         {
             this.RepositoryContext.Set<UserEvent>().AddRange(userEvents);
         } 
+
+        
     }
 }
