@@ -71,7 +71,7 @@ namespace helpMeFest.Services.Events
 
             if (user != null)
             {
-                var alreadyExists = this.unitOfWork.EventRepository.Exists(x => x.Id == ev.CurrentUserId);
+                var alreadyExists = this.unitOfWork.EventRepository.Exists(x => x.Id == id);
 
                 if (alreadyExists)
                 {
