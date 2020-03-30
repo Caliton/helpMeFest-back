@@ -66,9 +66,9 @@ namespace helpMeFest.Services.Events
             // PEGAR O USUÁRIO
             // VERIFICAR PERFIL
             // SE FOR ORGANIZADOR
-            // APAGAR TUDO E CRIAR DE NOVO (EVENT E USEREVENT) PORQUE ELE PODE EDITAR TANDO O CABEÇALHO, QUANTO OS PARTICIPANTES
+            // APAGAR TUDO E CRIAR DE NOVO (EVENT E USEREVENT) PORQUE ELE PODE EDITAR TANTO O CABEÇALHO, QUANTO OS PARTICIPANTES
             // SE UM USUÁRIO COMUM
-            // APAGA TODOS OS REGISTRO DA USEREVENT E INSERE OS QUE CHEGAREM DA REQUISIÇÃO 
+            // APAGA TODOS OS REGISTRO DA USEREVENT E INSERE OS QUE CHEGAREM DA REQUISIÇÃO
 
             //var events = await this.unitOfWork.EventRepository.FindByCondition(x => x.Id == ev.Id);
             var data = await this.unitOfWork.UserRepository.FindByCondition(x => x.Id == ev.Id);

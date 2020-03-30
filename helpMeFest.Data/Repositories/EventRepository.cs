@@ -44,8 +44,8 @@ namespace helpMeFest.Data.Repositories
         private IQueryable<Event> GetAllEventsFromUser(int userId)
         {
             return from ev in this.RepositoryContext.Event
-                   join uv in this.RepositoryContext.UserEvent on userId equals uv.EventId into result
-                   from data in result
+                   join uv in this.RepositoryContext.UserEvent on userId equals uv.PersonId into result
+                   from data in result.DefaultIfEmpty()
                    select new Event()
                    {
                        Id = ev.Id,
