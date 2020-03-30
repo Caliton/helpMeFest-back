@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace helpMeFest.Models.Contract.Repositories
 {
-    public interface IUserEventRepository : IRepositoryBase<UserEvent>
+    public interface IGuestRepository : IRepositoryBase<Guest>
     {
-        public void DeleteMany(List<UserEvent> events);
-        void RemoveGuestByUser(int eventId, int userId);
+        Task<IEnumerable<Guest>> AddRange(IEnumerable<Guest> guests);
     }
 }

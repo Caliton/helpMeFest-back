@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using helpMeFest.Api.Dtos;
 using helpMeFest.Models.Contract.Services;
+using helpMeFest.Models.Dto;
 using helpMeFest.Models.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -67,10 +68,9 @@ namespace helpMeFest.Api.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult> UpdateEvent([FromBody] Event ev)
+        public async Task<ActionResult> UpdateEvent([FromRoute] int id, [FromBody] EventData ev)
         {
-            //var eventModel = this.mapper.Map<EventDto, Event>(ev);
-            var updatedEvent = await this.eventService.UpdateEvent(ev);
+            var updatedEvent = await this.eventService.UpdateEvent(id, ev);
             return Ok(updatedEvent);
         }
 

@@ -13,6 +13,7 @@ namespace helpMeFest.Models.Contract.UnitOfWork
         IDepartamentRepository DepartamentRepository { get;}
         IEventRepository EventRepository { get; }
         IUserEventRepository UserEventRepository { get; }
+        IGuestRepository GuestRepository { get; }
 
         Task<int> Commit();
     }

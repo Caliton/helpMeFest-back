@@ -20,8 +20,11 @@ namespace helpMeFest.Data.Repositories
         public void CreateMany(List<UserEvent> userEvents)
         {
             this.RepositoryContext.Set<UserEvent>().AddRange(userEvents);
-        } 
+        }
 
-        
+        public void RemoveGuestByUser(int eventId, int userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

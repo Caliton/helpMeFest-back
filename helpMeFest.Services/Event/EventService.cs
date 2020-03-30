@@ -1,6 +1,7 @@
 ﻿using helpMeFest.Models;
 using helpMeFest.Models.Contract.Services;
 using helpMeFest.Models.Contract.UnitOfWork;
+using helpMeFest.Models.Dto;
 using helpMeFest.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace helpMeFest.Services.Events
         {
             var created = this.unitOfWork.EventRepository.Create(ev);
             await this.unitOfWork.Commit();
-            this.unitOfWork.UserEventRepository.Create(new UserEvent { EventId = created.Id, PersonId = created.EventOrganizerId});
+            this.unitOfWork.UserEventRepository.Create(new UserEvent { EventId = created.Id, PersonId = created.EventOrganizerId });
             await this.unitOfWork.Commit();
             return created;
         }
@@ -63,46 +64,72 @@ namespace helpMeFest.Services.Events
             return await this.unitOfWork.EventRepository.FindAllByOwner(onwerId);
         }
 
-        public async Task<Event> UpdateEvent(Event ev)
+        public async Task<Event> UpdateEvent(int id, EventData ev)
         {
-            // PEGAR O USUÁRIO
-            // VERIFICAR PERFIL
-            // SE FOR ORGANIZADOR
-            // APAGAR TUDO E CRIAR DE NOVO (EVENT E USEREVENT) PORQUE ELE PODE EDITAR TANTO O CABEÇALHO, QUANTO OS PARTICIPANTES
-            // SE UM USUÁRIO COMUM
-            // APAGA TODOS OS REGISTRO DA USEREVENT E INSERE OS QUE CHEGAREM DA REQUISIÇÃO
-
-            //var events = await this.unitOfWork.EventRepository.FindByCondition(x => x.Id == ev.Id);
-            var data = await this.unitOfWork.UserRepository.FindByCondition(x => x.Id == ev.Id);
+            var data = await this.unitOfWork.UserRepository.FindByCondition(x => x.Id == ev.CurrentUserId);
             var user = data.FirstOrDefault();
 
             if (user != null)
             {
-                var alreadyExists = this.unitOfWork.EventRepository.Exists(x => x.Id == ev.Id);
+                var alreadyExists = this.unitOfWork.EventRepository.Exists(x => x.Id == ev.CurrentUserId);
 
                 if (alreadyExists)
                 {
                     if ((EnumProfile)user.ProfileId == EnumProfile.ORGANIZER)
                     {
-                        this.UpdateEventHeader(ev);
+                        this.UpdateEventHeader(id, ev);
+                        this.HandleUserChanges(id, ev);
                     }
 
-                    List<UserEvent> userEvents = ev.People.Select(x => new UserEvent() { EventId = ev.Id, PersonId = x.PersonId}).ToList();
-                    this.unitOfWork.UserEventRepository.DeleteMany(userEvents);
+                    var newGuests = ev.Guests.Where(x => x.EnumCrud == EnumCrud.CREATED)
+                        .Select(x => new Guest() { IsGuest = true, Name = x.Name, RelatedUserId = x.RelatedUserId, Relantionship = x.Relationship, Events = new List<UserEvent>() { new UserEvent { EventId = id } } }).ToList();
+
+                    if (newGuests.Count > 0)
+                    {
+                        await this.unitOfWork.GuestRepository.AddRange(newGuests);
+                    }
+
 
                     await this.unitOfWork.Commit();
-                    return ev;
+                    return await this.GetEventById(id, ev.CurrentUserId);
                 }
             }
 
             return null;
         }
 
-        public void UpdateEventHeader(Event ev)
+        public void UpdateEventHeader(int id, EventData ev)
         {
-            Event eventHeader = ev;
-            eventHeader.People = null;
+            Event eventHeader = new Event()
+            {
+                Id = id,
+                Name = ev.Name,
+                DateEnd = ev.DateEnd,
+                DateInitial = ev.DateInitial,
+                Description = ev.Description,
+                EventOrganizerId = ev.EventOrganizerId,
+                People = null,
+                Place = ev.Place,
+                Guests = null
+            };
+
             this.unitOfWork.EventRepository.Update(eventHeader);
+        }
+
+        private void HandleUserChanges(int eventId, EventData eventData)
+        {
+            var removedUsers = eventData.Users.Where(x => x.EnumCrud == EnumCrud.DELETED).ToList();
+            if (removedUsers.Count > 0)
+            {
+                foreach (var item in removedUsers)
+                {
+                    this.unitOfWork.UserEventRepository.RemoveGuestByUser(eventId, item.UserId);
+                    eventData.Guests.RemoveAll(x => x.RelatedUserId == item.UserId);
+
+                    this.unitOfWork.UserEventRepository.Delete(new UserEvent() { EventId = eventId, PersonId = item.UserId });
+                    eventData.Users.Remove(item);
+                }
+            }
         }
     }
 }

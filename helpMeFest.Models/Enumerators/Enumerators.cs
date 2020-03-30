@@ -12,7 +12,15 @@ namespace helpMeFest.Models
 
     public enum EnumProfile
     {
-        ORGANIZER,
-        PARTICIPANT
+        ORGANIZER = 1,
+        PARTICIPANT = 2
     }
+
+    public enum EnumCrud 
+    {
+        CREATED = 'C', 
+        UPDATED = 'U',
+        DELETED = 'D'
+    }
+
 }
