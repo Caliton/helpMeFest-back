@@ -21,6 +21,8 @@ namespace helpMeFest.Services.Events
         {
             var created = this.unitOfWork.EventRepository.Create(ev);
             await this.unitOfWork.Commit();
+            this.unitOfWork.UserEventRepository.Create(new UserEvent { EventId = created.Id, PersonId = created.EventOrganizerId});
+            await this.unitOfWork.Commit();
             return created;
         }
 
