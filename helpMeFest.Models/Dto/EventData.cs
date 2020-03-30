@@ -21,7 +21,6 @@ namespace helpMeFest.Models.Dto
         [MaxLength(500)]
         public string Description { get; set; }
 
-        [MaxLength(45)]
         public string Place { get; set; }
 
         public int EventOrganizerId { get; set; }
