@@ -6,7 +6,6 @@ namespace helpMeFest.Models.Contract.Repositories
 {
     public interface IEventRepository : IRepositoryBase<Event>
     {
-        public Event CreateDetachedChild(Event entity);
         public Task<IEnumerable<Event>> FindAllByUser(int userId);
         public Task<Event> FindEventByIdAndUser(int eventId, int userId);
 

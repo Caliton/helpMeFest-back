@@ -9,18 +9,10 @@ using System.Threading.Tasks;
 
 namespace helpMeFest.Data.Repositories
 {
-    public class EventRepository : RepositoryBase<Event>, IEventRepository 
+    public class EventRepository : RepositoryBase<Event>, IEventRepository
     {
         public EventRepository(DatabaseContext repositoryContext) : base(repositoryContext)
         {
-        }
-
-        public Event CreateDetachedChild(Event entity)
-        {
-            var added = this.RepositoryContext.Set<Event>().Add(entity).Entity;
-            this.RepositoryContext.Entry(entity.EventOrganizer.Profile).State = EntityState.Unchanged;
-            this.RepositoryContext.Entry(entity.EventOrganizer.Departament).State = EntityState.Unchanged;
-            return added;
         }
 
         public async Task<IEnumerable<Event>> FindAllByUser(int userId)
@@ -30,9 +22,20 @@ namespace helpMeFest.Data.Repositories
 
         public async Task<IEnumerable<Event>> FindAllByOwner(int ownerId)
         {
-            return await this.GetAllEventsFromUser(ownerId).Where(x => x.EventOrganizerId == ownerId).Distinct().ToListAsync();
+            return await this.RepositoryContext.Event.Where(x => x.EventOrganizerId == ownerId)
+                .Select(ev => new Event()
+                {
+                    Id = ev.Id,
+                    DateEnd = ev.DateEnd,
+                    DateInitial = ev.DateInitial,
+                    Description = ev.Description,
+                    EventOrganizerId = ev.EventOrganizerId,
+                    IsParticipating = true,
+                    Name = ev.Name,
+                    Place = ev.Place,
+                }).ToListAsync();
         }
-        
+
         public async Task<Event> FindEventByIdAndUser(int eventId, int userId)
         {
             var eventsByUser = this.GetAllEventsFromUser(userId);
@@ -58,13 +61,13 @@ namespace helpMeFest.Data.Repositories
                        Place = ev.Place,
                    };
         }
-    
+
         private IQueryable<Guest> GetGuestsEvent(int eventId)
         {
-          return from guests in this.RepositoryContext.Guests
-                         join userEvent in this.RepositoryContext.UserEvent on guests.Id equals userEvent.PersonId
-                         where userEvent.EventId == eventId
-                         select guests;
+            return from guests in this.RepositoryContext.Guests
+                   join userEvent in this.RepositoryContext.UserEvent on guests.Id equals userEvent.PersonId
+                   where userEvent.EventId == eventId
+                   select guests;
         }
     }
 }
