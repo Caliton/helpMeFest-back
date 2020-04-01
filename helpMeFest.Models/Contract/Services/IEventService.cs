@@ -11,8 +11,8 @@ namespace helpMeFest.Models.Contract.Services
     {
         Task<IEnumerable<Event>> GetAllEvents();
         Task<Event> CreateEvent(Event ev);
-        Task<Event> GetEventById(int enventId, int userId);
-        Task<Event> UpdateEvent(int Id, EventData ev);
+        Task<EventDetailDto> GetEventById(int enventId, int userId);
+        Task<EventDetailDto> UpdateEvent(int Id, EventDetailDto ev);
         Task<Event> DeleteEvent(int enventId);
         Task<IEnumerable<Event>> FindAllByUser(int userId);
         public Task<IEnumerable<Event>> GetEventsByOwner(int onwerId);

@@ -20,7 +20,8 @@ namespace helpMeFest.Models
     {
         CREATED = 'C', 
         UPDATED = 'U',
-        DELETED = 'D'
+        DELETED = 'D',
+        NON_CHANGE = 'N'
     }
 
 }

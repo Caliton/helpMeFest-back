@@ -54,7 +54,7 @@ namespace helpMeFest.Services.Events
             return this.unitOfWork.EventRepository.FindAll();
         }
 
-        public async Task<Event> GetEventById(int eventId, int userId)
+        public async Task<EventDetailDto> GetEventById(int eventId, int userId)
         {
             return await this.unitOfWork.EventRepository.FindEventByIdAndUser(eventId, userId);
         }
@@ -64,7 +64,7 @@ namespace helpMeFest.Services.Events
             return await this.unitOfWork.EventRepository.FindAllByOwner(onwerId);
         }
 
-        public async Task<Event> UpdateEvent(int id, EventData ev)
+        public async Task<EventDetailDto> UpdateEvent(int id, EventDetailDto ev)
         {
             var data = await this.unitOfWork.UserRepository.FindByCondition(x => x.Id == ev.CurrentUserId);
             var user = data.FirstOrDefault();
@@ -89,7 +89,6 @@ namespace helpMeFest.Services.Events
                         await this.unitOfWork.GuestRepository.AddRange(newGuests);
                     }
 
-
                     await this.unitOfWork.Commit();
                     return await this.GetEventById(id, ev.CurrentUserId);
                 }
@@ -98,7 +97,7 @@ namespace helpMeFest.Services.Events
             return null;
         }
 
-        public void UpdateEventHeader(int id, EventData ev)
+        public void UpdateEventHeader(int id, EventDetailDto ev)
         {
             Event eventHeader = new Event()
             {
@@ -116,7 +115,7 @@ namespace helpMeFest.Services.Events
             this.unitOfWork.EventRepository.Update(eventHeader);
         }
 
-        private void HandleUserChanges(int eventId, EventData eventData)
+        private void HandleUserChanges(int eventId, EventDetailDto eventData)
         {
             var removedUsers = eventData.Users.Where(x => x.EnumCrud == EnumCrud.DELETED).ToList();
             if (removedUsers.Count > 0)
@@ -130,6 +129,7 @@ namespace helpMeFest.Services.Events
                     eventData.Users.Remove(item);
                 }
             }
+            
         }
     }
 }

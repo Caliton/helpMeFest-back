@@ -63,25 +63,5 @@ namespace helpMeFest.Api.Controllers
             return Created($"user/{userMapped.Id}", userMapped);
 
         }
-
-        //[HttpGet]
-        //[Route("anonymous")]
-        //[AllowAnonymous]
-        //public string Anonymous() => "Anônimo";
-
-        //[HttpGet]
-        //[Route("authenticated")]
-        //[Authorize]
-        //public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
-
-        //[HttpGet]
-        //[Route("employee")]
-        //[Authorize(Roles = "1,2")]
-        //public string Employee() => "Funcionário";
-
-        //[HttpGet]
-        //[Route("manager")]
-        //[Authorize(Roles = "1")]
-        //public string Manager() => "Gerente";
     }
 }

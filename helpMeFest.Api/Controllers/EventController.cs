@@ -68,7 +68,7 @@ namespace helpMeFest.Api.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult> UpdateEvent([FromRoute] int id, [FromBody] EventData ev)
+        public async Task<ActionResult> UpdateEvent([FromRoute] int id, [FromBody] EventDetailDto ev)
         {
             var updatedEvent = await this.eventService.UpdateEvent(id, ev);
             return Ok(updatedEvent);

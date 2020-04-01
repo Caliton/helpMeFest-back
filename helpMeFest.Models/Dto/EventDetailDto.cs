@@ -6,7 +6,7 @@ using System.Text;
 
 namespace helpMeFest.Models.Dto
 {
-    public class EventData
+    public class EventDetailDto
     {
         [Required]
         [MaxLength(50)]
@@ -45,6 +45,8 @@ namespace helpMeFest.Models.Dto
     public class UserCrud : CrudData
     {
         public int UserId { get; set; }
+        public string Name { get; set; }
+        public Departament Departament { get; set; }
     }
 
     public class CrudData
