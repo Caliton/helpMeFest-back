@@ -9,5 +9,8 @@ namespace helpMeFest.Models.Contract.Repositories
     public interface IGuestRepository : IRepositoryBase<Guest>
     {
         Task<IEnumerable<Guest>> AddRange(IEnumerable<Guest> guests);
+        void UpdateRange(List<Guest> updatedGuests);
+
+        void DeleteRange(List<Guest> deletedGuest);
     }
 }

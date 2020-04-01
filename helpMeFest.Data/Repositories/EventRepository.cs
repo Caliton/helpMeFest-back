@@ -94,7 +94,7 @@ namespace helpMeFest.Data.Repositories
 
         private IQueryable<Event> GetAllEventsFromUser(int userId)
         {
-            return from ev in this.RepositoryContext.Event
+            var query = from ev in this.RepositoryContext.Event
                    join uv in this.RepositoryContext.UserEvent on userId equals uv.PersonId into result
                    from data in result.DefaultIfEmpty()
                    select new Event()
@@ -104,10 +104,11 @@ namespace helpMeFest.Data.Repositories
                        DateInitial = ev.DateInitial,
                        Description = ev.Description,
                        EventOrganizerId = ev.EventOrganizerId,
-                       IsParticipating = data.EventId != ev.Id ? false : true,
+                       IsParticipating = data.EventId == 0 ? false : true,
                        Name = ev.Name,
                        Place = ev.Place,
                    };
+            return query;
         }
 
         private IQueryable<Guest> GetGuestsEvent(int eventId)
@@ -122,6 +123,7 @@ namespace helpMeFest.Data.Repositories
         {
             return new EventDetailDto()
             {
+                Id = ev.Id,
                 CurrentUserId = currentUserId,
                 DateEnd = ev.DateEnd,
                 DateInitial = ev.DateInitial,

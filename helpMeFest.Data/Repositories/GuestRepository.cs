@@ -15,14 +15,19 @@ namespace helpMeFest.Data.Repositories
 
         public async Task<IEnumerable<Guest>> AddRange(IEnumerable<Guest> guests)
         {
-            //var returnedList = new List<Guest>();
-            //foreach (var item in guests)
-            //{
-            //    var createdGuest = this.RepositoryContext.Add(item);
-            //    await this.RepositoryContext.SaveChangesAsync();
-            //}
             await this.RepositoryContext.AddRangeAsync(guests);
             return null;
+        }
+
+        public void DeleteRange(List<Guest> deletedGuest)
+        {
+            this.RepositoryContext.Guests.RemoveRange(deletedGuest);
+        }
+
+        public void UpdateRange(List<Guest> updatedGuests)
+        {
+          this.RepositoryContext.Guests.UpdateRange(updatedGuests);
+
         }
     }
 }

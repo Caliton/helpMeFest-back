@@ -87,6 +87,23 @@ namespace helpMeFest.Services.Events
                     if (newGuests.Count > 0)
                     {
                         await this.unitOfWork.GuestRepository.AddRange(newGuests);
+                        await this.unitOfWork.Commit();
+                    }
+
+                    var updatedGuests = ev.Guests.Where(x => x.EnumCrud == EnumCrud.UPDATED).Select(guest => new Guest() { Id = guest.Id,  IsGuest = true, Name = guest.Name, RelatedUserId = guest.RelatedUserId, Relantionship = guest.Relationship, Events = null }).ToList();
+
+                    if (updatedGuests.Count > 0)
+                    {
+                        this.unitOfWork.GuestRepository.UpdateRange(updatedGuests);
+                        await this.unitOfWork.Commit();
+                    }
+
+                    var deletedGuests = ev.Guests.Where(x => x.EnumCrud == EnumCrud.DELETED).Select(guest => new Guest() { Id = guest.Id, IsGuest = true, Name = guest.Name, RelatedUserId = guest.RelatedUserId, Relantionship = guest.Relationship, Events = null }).ToList();
+
+                    if (deletedGuests.Count > 0)
+                    {
+                        this.unitOfWork.GuestRepository.DeleteRange(deletedGuests);
+                        await this.unitOfWork.Commit();
                     }
 
                     await this.unitOfWork.Commit();
@@ -129,7 +146,7 @@ namespace helpMeFest.Services.Events
                     eventData.Users.Remove(item);
                 }
             }
-            
+
         }
     }
 }
