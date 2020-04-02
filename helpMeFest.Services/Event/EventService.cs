@@ -82,35 +82,39 @@ namespace helpMeFest.Services.Events
 
                 if (alreadyExists)
                 {
-                    if ((EnumProfile)user.ProfileId == EnumProfile.ORGANIZER)
+                    if ((EnumProfile)user.ProfileId == EnumProfile.ORGANIZER || ev.EventOrganizerId == ev.CurrentUserId)
                     {
                         this.UpdateEventHeader(id, ev);
                         this.HandleUserChanges(id, ev);
                     }
 
-                    var newGuests = ev.Guests.Where(x => x.EnumCrud == EnumCrud.CREATED)
-                        .Select(x => new Guest() { IsGuest = true, Name = x.Name, RelatedUserId = x.RelatedUserId, Relantionship = x.Relationship, Events = new List<UserEvent>() { new UserEvent { EventId = id } } }).ToList();
-
-                    if (newGuests.Count > 0)
+                    if (ev.Guests != null)
                     {
-                        await this.unitOfWork.GuestRepository.AddRange(newGuests);
-                        await this.unitOfWork.Commit();
-                    }
 
-                    var updatedGuests = ev.Guests.Where(x => x.EnumCrud == EnumCrud.UPDATED).Select(guest => new Guest() { Id = guest.Id,  IsGuest = true, Name = guest.Name, RelatedUserId = guest.RelatedUserId, Relantionship = guest.Relationship, Events = null }).ToList();
+                        var newGuests = ev.Guests.Where(x => x.EnumCrud == EnumCrud.CREATED)
+                            .Select(x => new Guest() { IsGuest = true, Name = x.Name, RelatedUserId = x.RelatedUserId, Relantionship = x.Relationship, Events = new List<UserEvent>() { new UserEvent { EventId = id } } }).ToList();
 
-                    if (updatedGuests.Count > 0)
-                    {
-                        this.unitOfWork.GuestRepository.UpdateRange(updatedGuests);
-                        await this.unitOfWork.Commit();
-                    }
+                        if (newGuests.Count > 0)
+                        {
+                            await this.unitOfWork.GuestRepository.AddRange(newGuests);
+                            await this.unitOfWork.Commit();
+                        }
 
-                    var deletedGuests = ev.Guests.Where(x => x.EnumCrud == EnumCrud.DELETED).Select(guest => new Guest() { Id = guest.Id, IsGuest = true, Name = guest.Name, RelatedUserId = guest.RelatedUserId, Relantionship = guest.Relationship, Events = null }).ToList();
+                        var updatedGuests = ev.Guests.Where(x => x.EnumCrud == EnumCrud.UPDATED).Select(guest => new Guest() { Id = guest.Id, IsGuest = true, Name = guest.Name, RelatedUserId = guest.RelatedUserId, Relantionship = guest.Relationship, Events = null }).ToList();
 
-                    if (deletedGuests.Count > 0)
-                    {
-                        this.unitOfWork.GuestRepository.DeleteRange(deletedGuests);
-                        await this.unitOfWork.Commit();
+                        if (updatedGuests.Count > 0)
+                        {
+                            this.unitOfWork.GuestRepository.UpdateRange(updatedGuests);
+                            await this.unitOfWork.Commit();
+                        }
+
+                        var deletedGuests = ev.Guests.Where(x => x.EnumCrud == EnumCrud.DELETED).Select(guest => new Guest() { Id = guest.Id, IsGuest = true, Name = guest.Name, RelatedUserId = guest.RelatedUserId, Relantionship = guest.Relationship, Events = null }).ToList();
+
+                        if (deletedGuests.Count > 0)
+                        {
+                            this.unitOfWork.GuestRepository.DeleteRange(deletedGuests);
+                            await this.unitOfWork.Commit();
+                        }
                     }
 
                     await this.unitOfWork.Commit();
@@ -141,6 +145,11 @@ namespace helpMeFest.Services.Events
 
         private void HandleUserChanges(int eventId, EventDetailDto eventData)
         {
+            if (eventData.Users == null)
+            {
+                return;
+            } 
+
             var removedUsers = eventData.Users.Where(x => x.EnumCrud == EnumCrud.DELETED).ToList();
             if (removedUsers.Count > 0)
             {
