@@ -8,7 +8,6 @@ namespace helpMeFest.Models.Contract.Repositories
 {
     public interface IUserEventRepository : IRepositoryBase<UserEvent>
     {
-        public void DeleteMany(List<UserEvent> events);
         void RemoveGuestByUser(int eventId, int userId);
     }
 }

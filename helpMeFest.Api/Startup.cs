@@ -41,6 +41,7 @@ namespace helpMeFest.Api
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IUserEventService, UserEventService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddControllers().AddNewtonsoftJson(options =>

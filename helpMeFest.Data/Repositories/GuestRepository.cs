@@ -19,8 +19,9 @@ namespace helpMeFest.Data.Repositories
             return null;
         }
 
-        public void DeleteRange(List<Guest> deletedGuest)
+        public void DeleteRange(List<Guest> deletedGuest) // Implementar validação para verificar se o convidado existe no banco
         {
+            //this.RepositoryContext.);
             this.RepositoryContext.Guests.RemoveRange(deletedGuest);
         }
 

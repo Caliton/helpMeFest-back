@@ -2,6 +2,7 @@
 using helpMeFest.Models.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace helpMeFest.Data.Repositories
@@ -12,11 +13,6 @@ namespace helpMeFest.Data.Repositories
         {
         }
 
-        public void DeleteMany(List<UserEvent> events)
-        {
-            this.RepositoryContext.Set<UserEvent>().RemoveRange(events);
-        }
-
         public void CreateMany(List<UserEvent> userEvents)
         {
             this.RepositoryContext.Set<UserEvent>().AddRange(userEvents);
@@ -24,7 +20,11 @@ namespace helpMeFest.Data.Repositories
 
         public void RemoveGuestByUser(int eventId, int userId)
         {
-            throw new NotImplementedException();
+            var guestUser = this.RepositoryContext.Guests.Where(x => x.RelatedUserId == userId).ToList();
+            if (guestUser.Count > 0)
+            {
+                this.RepositoryContext.Guests.RemoveRange(guestUser);
+            }
         }
     }
 }

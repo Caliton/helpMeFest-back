@@ -63,5 +63,21 @@ namespace helpMeFest.Api.Controllers
             return Created($"user/{userMapped.Id}", userMapped);
 
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> GetUsers()
+        {
+            try
+            {
+                var users = await this.userService.GetAllUsers();
+                var usersDto = this.mapper.Map<List<UserDto>>(users);
+                return Ok(usersDto);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new { Message = $"Erro ao buscar usuários: {ex.Message}" });
+            }
+        }
     }
 }

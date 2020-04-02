@@ -11,5 +11,6 @@ namespace helpMeFest.Models.Contract.Services
     {
         Task<User> CreateUser(User user);
         Task<AuthenticationResult> ValidateLogin(string email, string password);
+        Task<IEnumerable<User>> GetAllUsers();
     }
 }

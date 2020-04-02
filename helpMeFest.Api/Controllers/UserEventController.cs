@@ -16,21 +16,26 @@ namespace helpMeFest.Api.Controllers
     [ApiController]
     public class UserEventController : ControllerBase
     {
-        private readonly IMapper mapper;
         private readonly IUserEventService userEventService;
         public UserEventController(IMapper mapper, IUserEventService service)
         {
-            this.mapper = mapper;
             this.userEventService = service;
         }
 
-        //[HttpPost]
-        //[Authorize]
-        //public ActionResult ConfirmPresence ([FromBody] SaveUserEvent saveResource)
-        //{
-        //    var userEvents = saveResource.Persons.Select(x=> new  UserEvent() { IdEvent = saveResource.IdEvent, IdUser = x });
-
-        //}
-        //}
+        [HttpPost]
+        [Authorize]
+        [Route("leaveEvent/{eventId}")]
+        public async Task<ActionResult> LeaveEvent([FromRoute] int eventId, [FromQuery] int userId)
+        {
+            try
+            {
+                var result = await this.userEventService.LeaveEvent(eventId, userId);
+                return Ok("Que pena! Sentiremos sua falta");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = $"Erro ao sair do evento: {ex.Message}"});
+            }
+        }
     }
 }

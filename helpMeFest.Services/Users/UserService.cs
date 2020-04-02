@@ -3,6 +3,7 @@ using helpMeFest.Models.Contract.Services;
 using helpMeFest.Models.Contract.UnitOfWork;
 using helpMeFest.Models.Models;
 using helpMeFest.Models.Utils;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,6 +23,11 @@ namespace helpMeFest.Services.Users
             var createdUser = this.unitOfWork.UserRepository.Create(user);
             await this.unitOfWork.Commit();
             return createdUser;
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await this.unitOfWork.UserRepository.FindAll();
         }
 
         public async Task<AuthenticationResult> ValidateLogin(string email, string password)
