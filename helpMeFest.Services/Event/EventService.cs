@@ -69,6 +69,12 @@ namespace helpMeFest.Services.Events
             var data = await this.unitOfWork.UserRepository.FindByCondition(x => x.Id == ev.CurrentUserId);
             var user = data.FirstOrDefault();
 
+            if (!user.Events.Any(x => x.EventId == id))
+            {
+                this.unitOfWork.UserEventRepository.Create(new UserEvent { EventId = id, PersonId = ev.CurrentUserId});
+                await this.unitOfWork.Commit();
+            }
+
             if (user != null)
             {
                 var alreadyExists = this.unitOfWork.EventRepository.Exists(x => x.Id == id);

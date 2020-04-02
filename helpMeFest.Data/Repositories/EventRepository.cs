@@ -42,10 +42,10 @@ namespace helpMeFest.Data.Repositories
         {
             var eventsByUser = this.GetAllEventsFromUser(userId);
             var returnedEvent = await eventsByUser.Where(x => x.Id == eventId).FirstOrDefaultAsync();
+
             var currentUser = this.RepositoryContext.User.Find(userId);
-
             var eventDetailDto = this.ParseEventToDetails(returnedEvent, userId);
-
+            
             if ((EnumProfile)currentUser.ProfileId == EnumProfile.ORGANIZER)
             {
                 eventDetailDto.Guests = await this.GetGuestsEvent(eventId)
