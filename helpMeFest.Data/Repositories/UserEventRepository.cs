@@ -20,7 +20,7 @@ namespace helpMeFest.Data.Repositories
 
         public void RemoveGuestByUser(int eventId, int userId)
         {
-            var guestUser = this.RepositoryContext.Guests.Where(x => x.RelatedUserId == userId).ToList();
+            var guestUser = this.RepositoryContext.Guests.Where(x => x.RelatedUserId == userId && x.Events.Any(ev => ev.EventId == eventId)).ToList();
             if (guestUser.Count > 0)
             {
                 this.RepositoryContext.Guests.RemoveRange(guestUser);

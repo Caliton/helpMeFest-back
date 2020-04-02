@@ -162,6 +162,17 @@ namespace helpMeFest.Services.Events
                 }
             }
 
+            //var newUsers = eventData.Users.Where(x => x.EnumCrud == EnumCrud.CREATED).ToList();
+            //if(newUsers.Count > 0)
+            //{
+            //    foreach (var item in newUsers)
+            //    {
+            //        if (!this.unitOfWork.UserEventRepository.Exists(x=> x.EventId == eventData.Id && x.PersonId == item.UserId))
+            //        {
+            //            this.unitOfWork.UserEventRepository.Create(new UserEvent { EventId = eventData.Id, PersonId = item.UserId });
+            //        }
+            //    }
+            //}
         }
     }
 }
