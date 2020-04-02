@@ -95,7 +95,7 @@ namespace helpMeFest.Data.Repositories
         private IQueryable<Event> GetAllEventsFromUser(int userId)
         {
             var query = from ev in this.RepositoryContext.Event
-                   join uv in this.RepositoryContext.UserEvent on userId equals uv.PersonId into result
+                   join uv in this.RepositoryContext.UserEvent.Where(x => x.PersonId == userId) on ev.Id equals uv.EventId into result
                    from data in result.DefaultIfEmpty()
                    select new Event()
                    {
@@ -104,7 +104,7 @@ namespace helpMeFest.Data.Repositories
                        DateInitial = ev.DateInitial,
                        Description = ev.Description,
                        EventOrganizerId = ev.EventOrganizerId,
-                       IsParticipating = data.EventId == 0 ? false : true,
+                       IsParticipating = data == null ? false : true,
                        Name = ev.Name,
                        Place = ev.Place,
                    };
